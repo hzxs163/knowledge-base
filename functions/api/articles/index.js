@@ -4,7 +4,7 @@
  * POST /api/articles - 创建文章（仅管理员）
  */
 
-import { query, queryFirst, execute, buildSelect, buildCount } from '../../utils/db.js';
+import { query, queryFirst, execute, buildSelect, buildCount } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
@@ -13,8 +13,8 @@ import {
     forbiddenResponse,
     conflictResponse,
     paginatedResponse
-} from '../../utils/response.js';
-import { isValidSlug } from '../../utils/validator.js';
+} from '../../utils/response.mjs';
+import { isValidSlug } from '../../utils/validator.mjs';
 
 // ============================================================
 // GET /api/articles - 获取文章列表（仅已发布）
