@@ -4,7 +4,7 @@
  * POST /api/admin/users - 添加用户
  */
 
-import { query, queryFirst, execute } from '../../utils/db.js';
+import { query, queryFirst, execute } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
