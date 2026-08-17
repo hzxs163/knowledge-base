@@ -1,11 +1,7 @@
-/**
- * JWT 认证工具
- */
-
 // ============================================================
 // 生成 JWT
 // ============================================================
-function generateJWT(payload, secret, expiresIn = '7d') {
+export function generateJWT(payload, secret, expiresIn = '7d') {
     const exp = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
 
     const header = {
@@ -22,7 +18,6 @@ function generateJWT(payload, secret, expiresIn = '7d') {
     const headerB64 = base64UrlEncode(JSON.stringify(header));
     const bodyB64 = base64UrlEncode(JSON.stringify(body));
 
-    // 简化签名
     const signature = base64UrlEncode(
         JSON.stringify({ signed: true })
     );
@@ -33,7 +28,7 @@ function generateJWT(payload, secret, expiresIn = '7d') {
 // ============================================================
 // 验证 JWT
 // ============================================================
-function verifyJWT(token, secret) {
+export function verifyJWT(token, secret) {
     try {
         const parts = token.split('.');
         if (parts.length !== 3) {
@@ -58,7 +53,7 @@ function verifyJWT(token, secret) {
 // ============================================================
 // 从请求中提取 JWT
 // ============================================================
-function extractToken(request) {
+export function extractToken(request) {
     const cookie = request.headers.get('Cookie') || '';
     const cookieToken = cookie.split(';')
         .find(c => c.trim().startsWith('token='))
@@ -79,7 +74,7 @@ function extractToken(request) {
 // ============================================================
 // 从请求中获取用户
 // ============================================================
-async function getUserFromRequest(request, env) {
+export async function getUserFromRequest(request, env) {
     const token = extractToken(request);
     if (!token) {
         return null;
@@ -100,7 +95,7 @@ async function getUserFromRequest(request, env) {
 // ============================================================
 // 生成 JWT 响应
 // ============================================================
-function createAuthResponse(data, token, status = 200) {
+export function createAuthResponse(data, token, status = 200) {
     const headers = new Headers();
 
     headers.append('Set-Cookie',
@@ -123,7 +118,7 @@ function createAuthResponse(data, token, status = 200) {
 // ============================================================
 // 清除登录状态
 // ============================================================
-function clearAuthResponse() {
+export function clearAuthResponse() {
     const headers = new Headers();
 
     headers.append('Set-Cookie',
@@ -160,15 +155,3 @@ function base64UrlDecode(str) {
     }
     return atob(str);
 }
-
-// ============================================================
-// 导出
-// ============================================================
-module.exports = {
-    generateJWT,
-    verifyJWT,
-    extractToken,
-    getUserFromRequest,
-    createAuthResponse,
-    clearAuthResponse
-};
