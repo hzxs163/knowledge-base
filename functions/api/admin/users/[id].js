@@ -4,7 +4,7 @@
  * DELETE /api/admin/users/:id - 删除/禁用用户
  */
 
-import { queryFirst, execute } from '../../utils/db.js';
+import { queryFirst, execute } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
@@ -12,9 +12,9 @@ import {
     unauthorizedResponse,
     forbiddenResponse,
     notFoundResponse
-} from '../../utils/response.js';
-import { hashPassword } from '../../utils/password.js';
-import { isValidEmail, isValidPassword } from '../../utils/validator.js';
+} from '../../utils/response.mjs';
+import { hashPassword } from '../../utils/password.mjs';
+import { isValidEmail, isValidPassword } from '../../utils/validator.mjs';
 
 // ============================================================
 // PUT /api/admin/users/:id - 更新用户信息
