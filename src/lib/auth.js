@@ -159,6 +159,7 @@ export function requiresAdmin(path) {
 // 路由守卫
 // ============================================================
 export function checkRoute(path) {
+    loadUserFromStorage();
     // 登录页：已登录则跳转首页，未登录则放行
     if (path === '/login') {
         if (isLoggedIn()) {
