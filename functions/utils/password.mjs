@@ -1,11 +1,7 @@
-/**
- * 密码加密工具
- */
-
 // ============================================================
 // 哈希密码
 // ============================================================
-async function hashPassword(password) {
+export async function hashPassword(password) {
     try {
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
@@ -22,7 +18,7 @@ async function hashPassword(password) {
 // ============================================================
 // 验证密码
 // ============================================================
-async function verifyPassword(password, hash) {
+export async function verifyPassword(password, hash) {
     try {
         const newHash = await hashPassword(password);
         return newHash === hash;
@@ -35,7 +31,7 @@ async function verifyPassword(password, hash) {
 // ============================================================
 // 生成随机密码
 // ============================================================
-function generateRandomPassword(length = 12) {
+export function generateRandomPassword(length = 12) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
     let password = '';
     for (let i = 0; i < length; i++) {
@@ -43,12 +39,3 @@ function generateRandomPassword(length = 12) {
     }
     return password;
 }
-
-// ============================================================
-// 导出
-// ============================================================
-module.exports = {
-    hashPassword,
-    verifyPassword,
-    generateRandomPassword
-};
