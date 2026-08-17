@@ -1,7 +1,3 @@
-/**
- * Slug 生成工具
- */
-
 const PINYIN_MAP = {
     '水': 'shui',
     '供': 'gong',
@@ -64,7 +60,7 @@ const PINYIN_MAP = {
 // ============================================================
 // 生成 Slug
 // ============================================================
-function generateSlug(text, maxLength = 60) {
+export function generateSlug(text, maxLength = 60) {
     if (!text) return '';
 
     let slug = text
@@ -92,7 +88,7 @@ function generateSlug(text, maxLength = 60) {
 // ============================================================
 // 从标题生成 Slug
 // ============================================================
-function slugify(title) {
+export function slugify(title) {
     if (!title) return '';
 
     if (/^[a-zA-Z0-9\s\-]+$/.test(title)) {
@@ -110,7 +106,7 @@ function slugify(title) {
 // ============================================================
 // 验证 Slug
 // ============================================================
-function isValidSlug(slug) {
+export function isValidSlug(slug) {
     if (!slug) return false;
     return /^[a-z0-9\-]+$/.test(slug);
 }
@@ -118,18 +114,8 @@ function isValidSlug(slug) {
 // ============================================================
 // 生成唯一 Slug
 // ============================================================
-function generateUniqueSlug(text) {
+export function generateUniqueSlug(text) {
     const base = slugify(text) || 'article';
     const suffix = Math.random().toString(36).slice(2, 6);
     return `${base}-${suffix}`;
 }
-
-// ============================================================
-// 导出
-// ============================================================
-module.exports = {
-    generateSlug,
-    slugify,
-    isValidSlug,
-    generateUniqueSlug
-};
