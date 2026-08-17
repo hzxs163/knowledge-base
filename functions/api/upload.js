@@ -11,7 +11,7 @@ import {
     errorResponse,
     badRequestResponse,
     unauthorizedResponse
-} from '../utils/response.js';
+} from '../utils/response.mjs';
 
 // ============================================================
 // POST /api/upload - 上传图片
