@@ -1,11 +1,7 @@
-/**
- * D1 数据库操作封装
- */
-
 // ============================================================
 // 执行查询（返回所有行）
 // ============================================================
-async function query(db, sql, params = []) {
+export async function query(db, sql, params = []) {
     try {
         const stmt = db.prepare(sql);
         const bound = stmt.bind(...params);
@@ -28,7 +24,7 @@ async function query(db, sql, params = []) {
 // ============================================================
 // 执行查询（返回第一行）
 // ============================================================
-async function queryFirst(db, sql, params = []) {
+export async function queryFirst(db, sql, params = []) {
     try {
         const stmt = db.prepare(sql);
         const bound = stmt.bind(...params);
@@ -50,7 +46,7 @@ async function queryFirst(db, sql, params = []) {
 // ============================================================
 // 执行写入（INSERT / UPDATE / DELETE）
 // ============================================================
-async function execute(db, sql, params = []) {
+export async function execute(db, sql, params = []) {
     try {
         const stmt = db.prepare(sql);
         const bound = stmt.bind(...params);
@@ -72,7 +68,7 @@ async function execute(db, sql, params = []) {
 // ============================================================
 // 批量执行（事务）
 // ============================================================
-async function batch(db, operations) {
+export async function batch(db, operations) {
     try {
         const results = [];
         for (const op of operations) {
@@ -98,7 +94,7 @@ async function batch(db, operations) {
 // ============================================================
 // 构建 INSERT 语句
 // ============================================================
-function buildInsert(table, data) {
+export function buildInsert(table, data) {
     const keys = Object.keys(data);
     const placeholders = keys.map(() => '?').join(', ');
     const columns = keys.join(', ');
@@ -111,7 +107,7 @@ function buildInsert(table, data) {
 // ============================================================
 // 构建 UPDATE 语句
 // ============================================================
-function buildUpdate(table, data, where, whereParams = []) {
+export function buildUpdate(table, data, where, whereParams = []) {
     const setClause = Object.keys(data)
         .map(key => `${key} = ?`)
         .join(', ');
@@ -124,7 +120,7 @@ function buildUpdate(table, data, where, whereParams = []) {
 // ============================================================
 // 构建 SELECT 语句（带分页）
 // ============================================================
-function buildSelect(table, options = {}) {
+export function buildSelect(table, options = {}) {
     const {
         where = '',
         whereParams = [],
@@ -149,24 +145,10 @@ function buildSelect(table, options = {}) {
 // ============================================================
 // 构建 COUNT 语句
 // ============================================================
-function buildCount(table, where = '', whereParams = []) {
+export function buildCount(table, where = '', whereParams = []) {
     let sql = `SELECT COUNT(*) as total FROM ${table}`;
     if (where) {
         sql += ` WHERE ${where}`;
     }
     return { sql, params: whereParams };
 }
-
-// ============================================================
-// 导出
-// ============================================================
-module.exports = {
-    query,
-    queryFirst,
-    execute,
-    batch,
-    buildInsert,
-    buildUpdate,
-    buildSelect,
-    buildCount
-};
