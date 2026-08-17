@@ -2,50 +2,46 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>页面未找到 - 公用工程知识库</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>公用工程知识库</title>
+
+    <!-- 图标 -->
+    <link rel="icon" href="/assets/images/favicon.ico">
+
+    <!-- 主样式 -->
     <link rel="stylesheet" href="/assets/styles/main.css">
+
+    <!-- ============ CDN 依赖 ============ -->
+    <!-- Markdown 渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js">
+    </script>
+    <!-- HTML 净化（防 XSS） -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js">
+    </script>
 </head>
 <body>
+
+    <!-- ============ 应用容器 ============ -->
     <div id="app">
+        <!-- Header 由 JS 动态渲染 -->
         <header id="app-header"></header>
-        <main id="app-main">
-            <div class="error-page">
-                <div class="error-card">
-                    <div class="error-icon">🔍</div>
-                    <h1 class="error-title">页面未找到</h1>
-                    <p class="error-desc">您访问的页面不存在或已被移除</p>
-                    <a href="/" class="error-btn" data-link>返回首页</a>
-                </div>
-            </div>
-        </main>
+
+        <!-- 主内容区 -->
+        <main id="app-main"></main>
+
+        <!-- Footer 由 JS 动态渲染 -->
         <footer id="app-footer"></footer>
     </div>
 
+    <!-- ============ 全局组件容器 ============ -->
+    <!-- Toast 消息提示 -->
     <div id="toast-container"></div>
+
+    <!-- Modal 弹窗 -->
     <div id="modal-container"></div>
 
-    <!-- 静态资源直接加载，不需要 app.js 路由 -->
-    <script type="module">
-        import { renderHeader } from '/src/components/Header.js';
-        import { renderFooter } from '/src/components/Footer.js';
-        import { getCurrentUser } from '/src/lib/auth.js';
+    <!-- ============ 主入口 ============ -->
+    <script type="module" src="/src/app.js"></script>
 
-        const user = await getCurrentUser();
-        document.getElementById('app-header').innerHTML = renderHeader(user);
-        document.getElementById('app-footer').innerHTML = renderFooter();
-
-        // 拦截点击跳转，使用 SPA 路由
-        document.querySelectorAll('[data-link]').forEach(el => {
-            el.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = el.getAttribute('href');
-                if (href) {
-                    window.history.pushState(null, '', href);
-                    window.dispatchEvent(new PopStateEvent('popstate'));
-                }
-            });
-        });
-    </script>
 </body>
 </html>
