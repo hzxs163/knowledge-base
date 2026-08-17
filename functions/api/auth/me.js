@@ -4,8 +4,8 @@
  * 返回当前登录用户信息
  */
 
-import { getUserFromRequest } from '../../utils/auth.js';
-import { successResponse, errorResponse, unauthorizedResponse } from '../../utils/response.js';
+import { getUserFromRequest } from '../../utils/auth.mjs';
+import { successResponse, errorResponse, unauthorizedResponse } from '../../utils/response.mjs';
 
 // ============================================================
 // GET /api/auth/me
