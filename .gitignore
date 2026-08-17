@@ -1,0 +1,39 @@
+# 依赖
+node_modules/
+package-lock.json
+
+# 环境变量（敏感信息）
+.env
+.env.local
+.env.production
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日志
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+
+# 构建产物（如果有）
+dist/
+build/
+.out/
+
+# Cloudflare 本地配置（不要提交，每个人不同）
+.wrangler/
+.dev.vars

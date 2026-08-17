@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 公用工程知识库</title>
+    <link rel="stylesheet" href="/assets/styles/main.css">
+</head>
+<body>
+    <div id="app">
+        <header id="app-header"></header>
+        <main id="app-main">
+            <div class="error-page">
+                <div class="error-card">
+                    <div class="error-icon">🔍</div>
+                    <h1 class="error-title">页面未找到</h1>
+                    <p class="error-desc">您访问的页面不存在或已被移除</p>
+                    <a href="/" class="error-btn" data-link>返回首页</a>
+                </div>
+            </div>
+        </main>
+        <footer id="app-footer"></footer>
+    </div>
+
+    <div id="toast-container"></div>
+    <div id="modal-container"></div>
+
+    <!-- 静态资源直接加载，不需要 app.js 路由 -->
+    <script type="module">
+        import { renderHeader } from '/src/components/Header.js';
+        import { renderFooter } from '/src/components/Footer.js';
+        import { getCurrentUser } from '/src/lib/auth.js';
+
+        const user = await getCurrentUser();
+        document.getElementById('app-header').innerHTML = renderHeader(user);
+        document.getElementById('app-footer').innerHTML = renderFooter();
+
+        // 拦截点击跳转，使用 SPA 路由
+        document.querySelectorAll('[data-link]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = el.getAttribute('href');
+                if (href) {
+                    window.history.pushState(null, '', href);
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

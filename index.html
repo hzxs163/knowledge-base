@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>公用工程知识库</title>
+
+    <!-- 图标 -->
+    <link rel="icon" href="/assets/images/favicon.ico">
+
+    <!-- 主样式 -->
+    <link rel="stylesheet" href="/assets/styles/main.css">
+
+    <!-- ============ CDN 依赖 ============ -->
+    <!-- Markdown 渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js">
+    </script>
+    <!-- HTML 净化（防 XSS） -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js">
+    </script>
+</head>
+<body>
+
+    <!-- ============ 应用容器 ============ -->
+    <div id="app">
+        <!-- Header 由 JS 动态渲染 -->
+        <header id="app-header"></header>
+
+        <!-- 主内容区 -->
+        <main id="app-main"></main>
+
+        <!-- Footer 由 JS 动态渲染 -->
+        <footer id="app-footer"></footer>
+    </div>
+
+    <!-- ============ 全局组件容器 ============ -->
+    <!-- Toast 消息提示 -->
+    <div id="toast-container"></div>
+
+    <!-- Modal 弹窗 -->
+    <div id="modal-container"></div>
+
+    <!-- ============ 主入口 ============ -->
+    <script type="module" src="/src/app.js"></script>
+
+</body>
+</html>

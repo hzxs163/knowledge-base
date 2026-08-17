@@ -1,0 +1,17 @@
+{
+  "name": "knowledge-base",
+  "version": "1.0.0",
+  "description": "公用工程知识库系统",
+  "type": "module",
+  "scripts": {
+    "dev": "npx wrangler pages dev . --compatibility-date=2024-12-18 --d1=knowledge_db"
+  },
+  "dependencies": {
+    "@jsr/roka__bcrypt": "^0.1.0",
+    "marked": "^15.0.7",
+    "dompurify": "^3.2.4"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

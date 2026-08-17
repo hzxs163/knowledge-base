@@ -1,0 +1,27 @@
+# Cloudflare Pages 响应头配置
+# 文档: https://developers.cloudflare.com/pages/configuration/headers/
+
+# 静态资源 - 长期缓存
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 文章配图 - 缓存1天
+/assets/articles/*
+  Cache-Control: public, max-age=86400
+
+# HTML文件 - 不缓存，每次都验证
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 所有页面 - 防止浏览器缓存导致内容不更新
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 安全头
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

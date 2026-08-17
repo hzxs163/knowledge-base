@@ -1,0 +1,8 @@
+# Cloudflare Pages 重定向配置
+# 文档: https://developers.cloudflare.com/pages/configuration/redirects/
+
+# 将所有请求指向 index.html，由前端路由（SPA）处理
+/*    /index.html    200
+
+# 注意：200 表示重写（Rewrite），URL 地址栏不变，返回 index.html 内容
+# 如果用 302 是临时重定向，浏览器地址会变，不适合 SPA
