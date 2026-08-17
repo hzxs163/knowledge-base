@@ -1,12 +1,11 @@
 /**
  * 后端校验工具
- * 用于 API 层的数据验证
  */
 
 // ============================================================
 // 校验邮箱格式
 // ============================================================
-export function isValidEmail(email) {
+function isValidEmail(email) {
     if (!email || typeof email !== 'string') return false;
     const regex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email.trim());
@@ -15,7 +14,7 @@ export function isValidEmail(email) {
 // ============================================================
 // 校验密码强度（最少6位）
 // ============================================================
-export function isValidPassword(password) {
+function isValidPassword(password) {
     if (!password || typeof password !== 'string') return false;
     return password.trim().length >= 6;
 }
@@ -23,7 +22,7 @@ export function isValidPassword(password) {
 // ============================================================
 // 校验 Slug（仅小写字母、数字、连字符）
 // ============================================================
-export function isValidSlug(slug) {
+function isValidSlug(slug) {
     if (!slug || typeof slug !== 'string') return false;
     const regex = /^[a-z0-9\-]+$/;
     return regex.test(slug);
@@ -32,7 +31,7 @@ export function isValidSlug(slug) {
 // ============================================================
 // 校验非空
 // ============================================================
-export function isNotEmpty(value) {
+function isNotEmpty(value) {
     if (value === null || value === undefined) return false;
     if (typeof value === 'string') return value.trim().length > 0;
     if (Array.isArray(value)) return value.length > 0;
@@ -42,7 +41,7 @@ export function isNotEmpty(value) {
 // ============================================================
 // 校验 URL 格式
 // ============================================================
-export function isValidUrl(url) {
+function isValidUrl(url) {
     if (!url || typeof url !== 'string') return false;
     try {
         const parsed = new URL(url);
@@ -53,18 +52,9 @@ export function isValidUrl(url) {
 }
 
 // ============================================================
-// 校验手机号（中国大陆）
-// ============================================================
-export function isValidPhone(phone) {
-    if (!phone || typeof phone !== 'string') return false;
-    const regex = /^1[3-9]\d{9}$/;
-    return regex.test(phone.trim());
-}
-
-// ============================================================
 // 校验数字
 // ============================================================
-export function isNumber(value) {
+function isNumber(value) {
     if (typeof value === 'number') return !isNaN(value);
     if (typeof value === 'string') return /^-?\d+(\.\d+)?$/.test(value.trim());
     return false;
@@ -73,7 +63,7 @@ export function isNumber(value) {
 // ============================================================
 // 校验整数
 // ============================================================
-export function isInteger(value) {
+function isInteger(value) {
     if (typeof value === 'number') return Number.isInteger(value);
     if (typeof value === 'string') return /^-?\d+$/.test(value.trim());
     return false;
@@ -82,7 +72,7 @@ export function isInteger(value) {
 // ============================================================
 // 校验长度范围
 // ============================================================
-export function isValidLength(value, min, max) {
+function isValidLength(value, min, max) {
     if (!value || typeof value !== 'string') return false;
     const len = value.trim().length;
     return len >= min && len <= max;
@@ -91,7 +81,7 @@ export function isValidLength(value, min, max) {
 // ============================================================
 // 校验枚举值
 // ============================================================
-export function isValidEnum(value, allowedValues) {
+function isValidEnum(value, allowedValues) {
     if (!value) return false;
     return allowedValues.includes(value);
 }
@@ -99,7 +89,7 @@ export function isValidEnum(value, allowedValues) {
 // ============================================================
 // 校验对象必填字段
 // ============================================================
-export function validateRequired(obj, fields) {
+function validateRequired(obj, fields) {
     const errors = [];
     for (const field of fields) {
         const value = obj[field];
@@ -116,7 +106,7 @@ export function validateRequired(obj, fields) {
 // ============================================================
 // 校验文章状态
 // ============================================================
-export function isValidArticleStatus(status) {
+function isValidArticleStatus(status) {
     const allowed = ['draft', 'published', 'archived'];
     return isValidEnum(status, allowed);
 }
@@ -124,7 +114,25 @@ export function isValidArticleStatus(status) {
 // ============================================================
 // 校验用户角色
 // ============================================================
-export function isValidUserRole(role) {
+function isValidUserRole(role) {
     const allowed = ['admin', 'viewer'];
     return isValidEnum(role, allowed);
 }
+
+// ============================================================
+// 导出
+// ============================================================
+module.exports = {
+    isValidEmail,
+    isValidPassword,
+    isValidSlug,
+    isNotEmpty,
+    isValidUrl,
+    isNumber,
+    isInteger,
+    isValidLength,
+    isValidEnum,
+    validateRequired,
+    isValidArticleStatus,
+    isValidUserRole
+};
