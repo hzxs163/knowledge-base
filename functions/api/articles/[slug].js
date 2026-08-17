@@ -5,7 +5,7 @@
  * DELETE /api/articles/:slug - 删除文章（仅管理员）
  */
 
-import { queryFirst, execute } from '../../utils/db.js';
+import { queryFirst, execute } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
@@ -14,8 +14,8 @@ import {
     forbiddenResponse,
     notFoundResponse,
     conflictResponse
-} from '../../utils/response.js';
-import { isValidSlug } from '../../utils/validator.js';
+} from '../../utils/response.mjs';
+import { isValidSlug } from '../../utils/validator.mjs';
 
 // ============================================================
 // GET /api/articles/:slug - 获取文章详情
