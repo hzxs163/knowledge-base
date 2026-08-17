@@ -1,13 +1,7 @@
 /**
  * Slug 生成工具
- * 将中文标题转换为 URL 友好的 Slug
  */
 
-// ============================================================
-// 基础拼音映射（常用汉字转拼音）
-// ============================================================
-// 注意：这是一个简化版本，仅覆盖常用字
-// 完整版建议使用 pinyin 库或 API
 const PINYIN_MAP = {
     '水': 'shui',
     '供': 'gong',
@@ -68,51 +62,27 @@ const PINYIN_MAP = {
 };
 
 // ============================================================
-// 将中文转为拼音（简化版）
-// ============================================================
-function chineseToPinyin(text) {
-    let result = '';
-    for (const char of text) {
-        if (PINYIN_MAP[char]) {
-            result += PINYIN_MAP[char];
-        } else {
-            result += char;
-        }
-    }
-    return result;
-}
-
-// ============================================================
 // 生成 Slug
 // ============================================================
-export function generateSlug(text, maxLength = 60) {
+function generateSlug(text, maxLength = 60) {
     if (!text) return '';
 
     let slug = text
-        // 转小写
         .toLowerCase()
-        // 中文转拼音
         .split('')
         .map(char => PINYIN_MAP[char] || char)
         .join('')
-        // 替换空格为连字符
         .replace(/\s+/g, '-')
-        // 只保留字母、数字、连字符、中文
         .replace(/[^a-z0-9\u4e00-\u9fa5\-]/g, '')
-        // 多个连字符合并为一个
         .replace(/-+/g, '-')
-        // 去除首尾连字符
         .replace(/^-|-$/g, '');
 
-    // 如果 slug 为空，使用时间戳
     if (!slug) {
         slug = Date.now().toString();
     }
 
-    // 截断长度
     if (slug.length > maxLength) {
         slug = slug.slice(0, maxLength);
-        // 去掉末尾不完整的词
         slug = slug.replace(/-[^-]*$/, '');
     }
 
@@ -120,12 +90,11 @@ export function generateSlug(text, maxLength = 60) {
 }
 
 // ============================================================
-// 从标题生成 Slug（带英文检测）
+// 从标题生成 Slug
 // ============================================================
-export function slugify(title) {
+function slugify(title) {
     if (!title) return '';
 
-    // 如果标题已经是英文（只包含字母数字空格连字符）
     if (/^[a-zA-Z0-9\s\-]+$/.test(title)) {
         return title
             .toLowerCase()
@@ -139,18 +108,28 @@ export function slugify(title) {
 }
 
 // ============================================================
-// 验证 Slug 是否合法
+// 验证 Slug
 // ============================================================
-export function isValidSlug(slug) {
+function isValidSlug(slug) {
     if (!slug) return false;
     return /^[a-z0-9\-]+$/.test(slug);
 }
 
 // ============================================================
-// 生成唯一 Slug（带随机后缀）
+// 生成唯一 Slug
 // ============================================================
-export function generateUniqueSlug(text) {
+function generateUniqueSlug(text) {
     const base = slugify(text) || 'article';
     const suffix = Math.random().toString(36).slice(2, 6);
     return `${base}-${suffix}`;
 }
+
+// ============================================================
+// 导出
+// ============================================================
+module.exports = {
+    generateSlug,
+    slugify,
+    isValidSlug,
+    generateUniqueSlug
+};
