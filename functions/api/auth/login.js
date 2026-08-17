@@ -4,9 +4,9 @@
  * 验证邮箱密码，返回 JWT 并设置 Cookie
  */
 
-import { queryFirst } from '../../utils/db.js';
-import { verifyPassword } from '../../utils/password.js';
-import { generateJWT, createAuthResponse, errorResponse, badRequestResponse } from '../../utils/response.js';
+import { queryFirst } from '../../utils/db.mjs';
+import { verifyPassword } from '../../utils/password.mjs';
+import { generateJWT, createAuthResponse, errorResponse, badRequestResponse } from '../../utils/response.mjs';
 
 // ============================================================
 // POST /api/auth/login
