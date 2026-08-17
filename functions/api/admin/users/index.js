@@ -12,9 +12,9 @@ import {
     unauthorizedResponse,
     forbiddenResponse,
     conflictResponse
-} from '../../utils/response.js';
-import { hashPassword } from '../../utils/password.js';
-import { isValidEmail, isValidPassword } from '../../utils/validator.js';
+} from '../../utils/response.mjs';
+import { hashPassword } from '../../utils/password.mjs';
+import { isValidEmail, isValidPassword } from '../../utils/validator.mjs';
 
 // ============================================================
 // GET /api/admin/users - 获取用户列表
