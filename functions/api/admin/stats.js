@@ -3,13 +3,13 @@
  * GET /api/admin/stats - 获取后台统计数据
  */
 
-import { queryFirst } from '../../utils/db.js';
+import { queryFirst } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
     unauthorizedResponse,
     forbiddenResponse
-} from '../../utils/response.js';
+} from '../../utils/response.mjs';
 
 // ============================================================
 // GET /api/admin/stats - 获取统计数据
