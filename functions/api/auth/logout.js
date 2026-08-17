@@ -4,7 +4,7 @@
  * 清除登录状态
  */
 
-import { clearAuthResponse, errorResponse } from '../../utils/response.js';
+import { clearAuthResponse, errorResponse } from '../../utils/response.mjs';
 
 // ============================================================
 // POST /api/auth/logout
