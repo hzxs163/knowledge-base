@@ -1,13 +1,11 @@
 /**
  * JWT 认证工具
- * 生成和验证 JWT
  */
 
 // ============================================================
 // 生成 JWT
 // ============================================================
-export function generateJWT(payload, secret, expiresIn = '7d') {
-    // 计算过期时间（7天）
+function generateJWT(payload, secret, expiresIn = '7d') {
     const exp = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
 
     const header = {
@@ -21,13 +19,10 @@ export function generateJWT(payload, secret, expiresIn = '7d') {
         iat: Math.floor(Date.now() / 1000)
     };
 
-    // Base64Url 编码
     const headerB64 = base64UrlEncode(JSON.stringify(header));
     const bodyB64 = base64UrlEncode(JSON.stringify(body));
 
-    // 签名（使用 Web Crypto API）
-    // 由于 CF Worker 环境限制，这里使用简化方案
-    // 实际生产环境建议使用 @cloudflare/workers-jwt 或类似库
+    // 简化签名
     const signature = base64UrlEncode(
         JSON.stringify({ signed: true })
     );
@@ -38,7 +33,7 @@ export function generateJWT(payload, secret, expiresIn = '7d') {
 // ============================================================
 // 验证 JWT
 // ============================================================
-export function verifyJWT(token, secret) {
+function verifyJWT(token, secret) {
     try {
         const parts = token.split('.');
         if (parts.length !== 3) {
@@ -46,12 +41,9 @@ export function verifyJWT(token, secret) {
         }
 
         const [, payloadB64] = parts;
-
-        // 解码 payload
         const payloadJson = base64UrlDecode(payloadB64);
         const payload = JSON.parse(payloadJson);
 
-        // 检查过期时间
         if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
             throw new Error('Token expired');
         }
@@ -66,8 +58,7 @@ export function verifyJWT(token, secret) {
 // ============================================================
 // 从请求中提取 JWT
 // ============================================================
-export function extractToken(request) {
-    // 从 Cookie 获取
+function extractToken(request) {
     const cookie = request.headers.get('Cookie') || '';
     const cookieToken = cookie.split(';')
         .find(c => c.trim().startsWith('token='))
@@ -77,7 +68,6 @@ export function extractToken(request) {
         return cookieToken;
     }
 
-    // 从 Authorization 头获取
     const authHeader = request.headers.get('Authorization') || '';
     if (authHeader.startsWith('Bearer ')) {
         return authHeader.slice(7);
@@ -87,9 +77,9 @@ export function extractToken(request) {
 }
 
 // ============================================================
-// 从请求中获取用户（验证 JWT 并查数据库）
+// 从请求中获取用户
 // ============================================================
-export async function getUserFromRequest(request, env) {
+async function getUserFromRequest(request, env) {
     const token = extractToken(request);
     if (!token) {
         return null;
@@ -100,7 +90,6 @@ export async function getUserFromRequest(request, env) {
         return null;
     }
 
-    // 从数据库查询用户
     const result = await env.DB.prepare(
         'SELECT id, email, nickname, role, is_active FROM users WHERE id = ? AND is_active = 1'
     ).bind(payload.id).first();
@@ -109,12 +98,11 @@ export async function getUserFromRequest(request, env) {
 }
 
 // ============================================================
-// 生成 JWT 响应（设置 Cookie）
+// 生成 JWT 响应
 // ============================================================
-export function createAuthResponse(data, token, status = 200) {
+function createAuthResponse(data, token, status = 200) {
     const headers = new Headers();
 
-    // 设置 Cookie
     headers.append('Set-Cookie',
         `token=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`
     );
@@ -133,12 +121,11 @@ export function createAuthResponse(data, token, status = 200) {
 }
 
 // ============================================================
-// 清除登录状态（登出）
+// 清除登录状态
 // ============================================================
-export function clearAuthResponse() {
+function clearAuthResponse() {
     const headers = new Headers();
 
-    // 清除 Cookie（设置过期时间为过去）
     headers.append('Set-Cookie',
         'token=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT'
     );
@@ -173,3 +160,15 @@ function base64UrlDecode(str) {
     }
     return atob(str);
 }
+
+// ============================================================
+// 导出
+// ============================================================
+module.exports = {
+    generateJWT,
+    verifyJWT,
+    extractToken,
+    getUserFromRequest,
+    createAuthResponse,
+    clearAuthResponse
+};
