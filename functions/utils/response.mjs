@@ -1,11 +1,7 @@
-/**
- * 统一响应格式工具
- */
-
 // ============================================================
 // 成功响应
 // ============================================================
-function successResponse(data, message = 'success') {
+export function successResponse(data, message = 'success') {
     return new Response(JSON.stringify({
         success: true,
         message,
@@ -21,7 +17,7 @@ function successResponse(data, message = 'success') {
 // ============================================================
 // 错误响应
 // ============================================================
-function errorResponse(error, status = 400, code = null) {
+export function errorResponse(error, status = 400, code = null) {
     const body = {
         success: false,
         error: error
@@ -42,49 +38,49 @@ function errorResponse(error, status = 400, code = null) {
 // ============================================================
 // 401 未授权
 // ============================================================
-function unauthorizedResponse(message = '请先登录') {
+export function unauthorizedResponse(message = '请先登录') {
     return errorResponse(message, 401, 'UNAUTHORIZED');
 }
 
 // ============================================================
 // 403 禁止访问
 // ============================================================
-function forbiddenResponse(message = '权限不足') {
+export function forbiddenResponse(message = '权限不足') {
     return errorResponse(message, 403, 'FORBIDDEN');
 }
 
 // ============================================================
 // 404 未找到
 // ============================================================
-function notFoundResponse(message = '资源不存在') {
+export function notFoundResponse(message = '资源不存在') {
     return errorResponse(message, 404, 'NOT_FOUND');
 }
 
 // ============================================================
 // 400 参数错误
 // ============================================================
-function badRequestResponse(message = '参数错误') {
+export function badRequestResponse(message = '参数错误') {
     return errorResponse(message, 400, 'BAD_REQUEST');
 }
 
 // ============================================================
 // 409 冲突
 // ============================================================
-function conflictResponse(message = '资源已存在') {
+export function conflictResponse(message = '资源已存在') {
     return errorResponse(message, 409, 'CONFLICT');
 }
 
 // ============================================================
 // 500 服务器错误
 // ============================================================
-function serverErrorResponse(message = '服务器内部错误') {
+export function serverErrorResponse(message = '服务器内部错误') {
     return errorResponse(message, 500, 'SERVER_ERROR');
 }
 
 // ============================================================
 // 带 CORS 的响应
 // ============================================================
-function corsResponse(response) {
+export function corsResponse(response) {
     const newResponse = new Response(response.body, response);
     newResponse.headers.set('Access-Control-Allow-Origin', '*');
     newResponse.headers.set('Access-Control-Allow-Credentials', 'true');
@@ -96,7 +92,7 @@ function corsResponse(response) {
 // ============================================================
 // 快捷：JSON 响应 + CORS
 // ============================================================
-function jsonResponse(data, status = 200) {
+export function jsonResponse(data, status = 200) {
     const response = new Response(JSON.stringify(data), {
         status,
         headers: {
@@ -109,7 +105,7 @@ function jsonResponse(data, status = 200) {
 // ============================================================
 // 分页数据格式
 // ============================================================
-function paginatedResponse(data, page, limit, total) {
+export function paginatedResponse(data, page, limit, total) {
     return {
         data,
         pagination: {
@@ -120,20 +116,3 @@ function paginatedResponse(data, page, limit, total) {
         }
     };
 }
-
-// ============================================================
-// 导出
-// ============================================================
-module.exports = {
-    successResponse,
-    errorResponse,
-    unauthorizedResponse,
-    forbiddenResponse,
-    notFoundResponse,
-    badRequestResponse,
-    conflictResponse,
-    serverErrorResponse,
-    corsResponse,
-    jsonResponse,
-    paginatedResponse
-};
