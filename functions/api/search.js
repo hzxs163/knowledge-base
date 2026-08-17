@@ -3,12 +3,12 @@
  * GET /api/search - 搜索文章（标题、正文、摘要）
  */
 
-import { query } from '../utils/db.js';
+import { query } from '../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
     badRequestResponse
-} from '../utils/response.js';
+} from '../utils/response.mjs';
 
 // ============================================================
 // GET /api/search - 搜索文章
