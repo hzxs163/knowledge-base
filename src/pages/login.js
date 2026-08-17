@@ -3,7 +3,6 @@
  */
 
 import { login } from '../lib/auth.js';
-import { navigateTo } from '../lib/router.js';
 import { showToast } from '../components/Toast.js';
 
 // ============================================================
@@ -80,7 +79,6 @@ export function bindLoginEvents() {
         const email = emailInput?.value?.trim() || '';
         const password = passwordInput?.value || '';
 
-        // 简单校验
         if (!email) {
             showError('请输入邮箱');
             emailInput?.focus();
@@ -93,7 +91,6 @@ export function bindLoginEvents() {
             return;
         }
 
-        // 按钮禁用
         submitBtn.disabled = true;
         submitBtn.textContent = '登录中...';
 
@@ -107,15 +104,25 @@ export function bindLoginEvents() {
                 return;
             }
 
-            // 登录成功
+            // ============================================================
+            // 登录成功：手动写入 localStorage + 硬刷新
+            // ============================================================
             showToast('登录成功', 'success');
 
-            // 根据角色跳转
             const user = result.user;
-            if (user && user.role === 'admin') {
-                navigateTo('/dashboard', true);
+            if (user) {
+                // 写入 localStorage
+                localStorage.setItem('knowledge_user', JSON.stringify(user));
+                if (result.token) {
+                    localStorage.setItem('token', result.token);
+                }
+                // 硬刷新页面，让 app.js 重新加载并恢复登录状态
+                window.location.href = '/';
             } else {
-                navigateTo('/', true);
+                console.error('[Login] 登录成功但无用户数据:', result);
+                showError('登录异常，请重试');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '登 录';
             }
 
         } catch (err) {
@@ -126,7 +133,6 @@ export function bindLoginEvents() {
         }
     });
 
-    // 显示错误
     function showError(msg) {
         errorEl.textContent = msg;
         errorEl.classList.add('show');
