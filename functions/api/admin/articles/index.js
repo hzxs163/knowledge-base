@@ -3,13 +3,13 @@
  * GET /api/admin/articles - 获取所有文章（含草稿）
  */
 
-import { query } from '../../utils/db.js';
+import { query } from '../../utils/db.mjs';
 import {
     successResponse,
     errorResponse,
     unauthorizedResponse,
     forbiddenResponse
-} from '../../utils/response.js';
+} from '../../utils/response.mjs';
 
 // ============================================================
 // GET /api/admin/articles - 获取所有文章（含草稿）
